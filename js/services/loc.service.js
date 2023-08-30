@@ -1,7 +1,7 @@
 import { storageService } from './async-storage.service.js'
 import { utilService } from './util.service.js'
 
-const API_KEY2 = 'AIzaSyAFqM_CWQDpuTUZGPHlVk_42r5ZJvG-YR4'
+const API_KEY2 = 'AIzaSyCdNsu9gl8rInBWpqvli1Ha6gvp2BYXhIU'
 const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=${API_KEY2}`
 const STORAGE_KEY = 'searchDB'
 export const locService = {
