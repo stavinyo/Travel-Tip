@@ -6,11 +6,15 @@ window.onAddMarker = onAddMarker
 window.onPanTo = onPanTo
 window.onGetLocs = onGetLocs
 window.onGetUserPos = onGetUserPos
+window.onCreateLoc = onCreateLoc
+//-------------------------Tal--------------------------//
+//-------------------------Stav--------------------------//
 
 function onInit() {
     mapService.initMap()
         .then(() => {
             console.log('Map is ready')
+            addEventListenerLoc()
         })
         .catch(() => console.log('Error: cannot init map'))
 }
@@ -24,8 +28,31 @@ function getPosition() {
 }
 
 function onAddMarker() {
-    console.log('Adding a marker')
-    mapService.addMarker({ lat: 32.0749831, lng: 34.9120554 })
+    let location = mapService.getLastClickLoc()
+    console.log('Adding a marker', location)
+    mapService.addMarker(location)
+    // onGetLocs()
+}
+
+function onCreateLoc(loc) {
+    locService.createLoc(loc)
+}
+
+// DONE: X Y COORD
+function addEventListenerLoc() {
+    const gMap = mapService.getMap()
+    gMap.addListener('click', ev => {
+        const locName = prompt('enter position name:')
+        const lat = ev.latLng.lat()
+        const lng = ev.latLng.lng()
+
+
+        console.log('lat:', lat, ' | lng:', lng)
+
+        const loc = { locName, lat, lng }
+        onCreateLoc(loc)
+        console.log(clickPos)
+    })
 }
 
 function onGetLocs() {
