@@ -33,6 +33,8 @@ function getLastClickLoc() {
 
 // //FIXME: change???
 function addMarker(loc) {
+    console.log('loc', loc)
+    // if (!loc) return
 
     var marker = new google.maps.Marker({
         position: loc,
