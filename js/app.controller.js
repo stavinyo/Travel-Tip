@@ -20,7 +20,7 @@ function onInit() {
         .catch(() => console.log('Error: cannot init map'))
 }
 
-function onGetSearchResult(location){
+function onGetSearchResult(location) {
     console.log('value:', location)
     locService.getSearchResult(location)
 }
@@ -34,36 +34,39 @@ function getPosition() {
 }
 
 function onAddMarker() {
-    let location = locService.getLocs()
-    console.log('Adding a marker', location)
-    mapService.addMarker(location)
-    onGetLocs()
+    locService.getLocs()
+        .then(locations => {
+            if (!locations) return
+            mapService.addMarker(locations[locations.length - 1])
+            onGetLocs()
+        })
 }
 
-function onCreateLoc(locName, lat, lng) {
-    console.log('loc', locName, lat, lng)
-    // locService.createLoc(locName, lat, lng)
-}
 
 // DONE: X Y COORD
 function addEventListenerLoc() {
     const gMap = mapService.getMap()
     gMap.addListener('click', ev => {
-        const locName = prompt('enter position name:')
+        const locName = prompt('Enter position name:')
         if (!locName || locName.trim() === '') return
 
         const lat = ev.latLng.lat()
         const lng = ev.latLng.lng()
-        console.log('locName: ', locName, ' | lat:', lat, ' | lng:', lng)
 
-        // const loc = { locName, lat, lng }
+        console.log('locName: ', locName, ' | lat:', lat, ' | lng:', lng)
         onCreateLoc(locName, lat, lng)
+        onAddMarker()
     })
+}
+
+function onCreateLoc(locName, lat, lng) {
+    locService.createLoc(locName, lat, lng)
 }
 
 function onGetLocs() {
     locService.getLocs()
         .then(locs => {
+            if (!locs) return
             console.log('Locations:', locs)
             // document.querySelector('.locs').innerText = JSON.stringify(locs, null, 2)
             const strHTMLs = locs.map(loc => `<div class="loc-container">
